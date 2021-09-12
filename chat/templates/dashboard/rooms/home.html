@@ -12,12 +12,12 @@
                 <ul style="list-style-type:none;">
                     <h5>Rooms</h5>
                     {% for room in rooms %}
-                    <li>
-                        <form action="{% url 'rooms' %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" name='room_button' value={{room}}>{{room}}</button>
-                        </form>
-                    </li>
+                        <li>
+                            <form action="{% url 'rooms' %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" name='room_button' value={{room.name}}>{{room.name}}</button>
+                            </form>
+                        </li>
                     {% endfor %}
                 </ul>
             </nav>
