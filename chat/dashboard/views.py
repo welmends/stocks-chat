@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import JsonResponse
+from rest_framework.decorators import api_view
 from .models import Room, Message
 from .forms import CreateRoomForm
+from .serializers import MessageSerializer
 
 @login_required
 def dashboardView(request):
@@ -28,12 +31,47 @@ def createRoomView(request):
 
 @login_required
 def chatView(request, room_id=None):
-    msgs = Message.objects.filter(room_id=room_id)
+    messages = Message.objects.filter(room_id=room_id)
     if request.method == 'POST':
         room = Room.objects.get(id=room_id)
         user = User.objects.get(id=request.user.id)
         message = Message.objects.create(room=room, user=user, text=request.POST['message'])
         message.save()
     room = Room.objects.filter(id=room_id)[0]
-    context = {'room': room, 'messages': msgs}
+    context = {'room': room, 'messages': messages}
     return render(request, 'dashboard/chat/home.html', context)
+
+@login_required
+@api_view(['POST'])
+def sendMessage(request):
+    if request.method == 'POST':
+        room = Room.objects.get(id=request.POST['room_id'])
+        user = User.objects.get(id=request.user.id)
+        message = Message.objects.create(room=room, user=user, text=request.POST['message'])
+        message.save()
+    return JsonResponse({'status': True})
+
+@login_required
+@api_view(['GET'])
+def getMessages(request):
+    if request.method == 'GET':
+        messages = Message.objects.filter(room_id=request.GET['room_id']).order_by('-created_at')
+        if len(messages)==0:
+            return JsonResponse({'messages': None})
+        elif len(messages)>50:
+            messages = messages[:50]
+
+        serializable_messages = []
+        for m in messages.reverse():
+            serializable_messages.append(
+                {
+                    'text': m.text,
+                    'user_name': m.user.username,
+                    'user_id': m.user.id,
+                    'room_name': m.room.name,
+                    'room_id': m.room.id,
+                    'datetime': m.created_at.strftime("%B %d, %Y %H:%M:%S"),
+                }
+            )
+        return JsonResponse({'messages': MessageSerializer(serializable_messages, many=True).data})
+    return JsonResponse({'messages': None})
