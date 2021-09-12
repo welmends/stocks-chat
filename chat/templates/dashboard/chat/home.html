@@ -6,11 +6,33 @@
         <h4> Welcome, {{user.username}} </h4>
     </div>
 
-    <div class="flexbox-container" style="display:flex;">
+ <div class="flexbox-container" style="display:flex;">
         <div class="chat" style="flex:1;">
             <nav>
                 <ul style="list-style-type:none;">
-                    <h5>{{room}}</h5>
+                    <h5>{{room.name}}</h5>
+                    {% for message in messages %}
+                        <li>
+                            {% if user.id == message.user.id %}
+                                <div class="container">
+                                    <p align="right">{{message.text}}</p>
+                                    <span class="time-right">{{message.user.username}}</span>
+                                    <span class="time-left">{{message.created_at}}</span>
+                                </div>
+                            {% else %}
+                                <div class="container darker">
+                                    <p align="left">{{message.text}}</p>
+                                    <span class="time-left">{{message.user.username}}</span>
+                                    <span class="time-right">{{message.created_at}}</span>
+                                </div>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                    <form action="{% url 'chat' room.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="text" name="message">
+                        <button class="btn btn-primary" type="submit" name='send'> Send </button>
+                    </form>
                 </ul>
             </nav>
         </div>
