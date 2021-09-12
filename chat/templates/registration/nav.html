@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <ul>
+        <li><h5>Stocks Chat</h5></li>
+        <li style="float:right"><a href="{% url 'login' %}">Login</a></li>
+        <li style="float:right"><a href="{% url 'signUp' %}">Sign Up</a></li>
+    </ul>
+
+    {% block subcontent %}
+
+    {% endblock %}
+
+{% endblock %}
