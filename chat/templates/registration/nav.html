@@ -2,10 +2,10 @@
 
 {% block content %}
 
-    <ul>
-        <li><h5>Stocks Chat</h5></li>
-        <li style="float:right"><a href="{% url 'login' %}">Login</a></li>
-        <li style="float:right"><a href="{% url 'signUp' %}">Sign Up</a></li>
+    <ul class="ul-top">
+        <li class="li-top"><h5 class="li-h5-top">Stocks Chat</h5></li>
+        <li class="li-top" style="float:right"><a class="li-a-top" href="{% url 'login' %}">Login</a></li>
+        <li class="li-top" style="float:right"><a class="li-a-top" href="{% url 'signUp' %}">Sign Up</a></li>
     </ul>
 
     {% block subcontent %}
