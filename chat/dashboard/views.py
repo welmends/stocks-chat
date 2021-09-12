@@ -32,8 +32,7 @@ def chatView(request, room_id=None):
     if request.method == 'POST':
         room = Room.objects.get(id=room_id)
         user = User.objects.get(id=request.user.id)
-        message = Message.objects.create(room_id=room, user_id=user, text=request.POST['message'])
-        print(room,user,message)
+        message = Message.objects.create(room=room, user=user, text=request.POST['message'])
         message.save()
     room = Room.objects.filter(id=room_id)[0]
     context = {'room': room, 'messages': msgs}

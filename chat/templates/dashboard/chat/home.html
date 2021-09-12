@@ -13,10 +13,19 @@
                     <h5>{{room.name}}</h5>
                     {% for message in messages %}
                         <li>
-                            <div class="container">
-                                <p>{{message.text}}</p>
-                                <span class="time-right">11:00</span>
-                            </div>
+                            {% if user.id == message.user.id %}
+                                <div class="container">
+                                    <p align="right">{{message.text}}</p>
+                                    <span class="time-right">{{message.user.username}}</span>
+                                    <span class="time-left">{{message.created_at}}</span>
+                                </div>
+                            {% else %}
+                                <div class="container darker">
+                                    <p align="left">{{message.text}}</p>
+                                    <span class="time-left">{{message.user.username}}</span>
+                                    <span class="time-right">{{message.created_at}}</span>
+                                </div>
+                            {% endif %}
                         </li>
                     {% endfor %}
                     <form action="{% url 'chat' room.id %}" method="post">
