@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover:not(.active) {
+            background-color: #111;
+        }
+
+        h5 {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 12px 16px;
+            text-decoration: none;
+        }
+
+        html, body {
+            background: gray;
+            margin: 0;
+            height: 100%;
+        }
+    </style>
+    <title>Stocks Chat</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <center>
+        <ul>
+            {% comment %} <li><a href="{% url 'login' %}"> Login </a></li> {% endcomment %}
+            {% comment %} <li><a href="{% url 'signUp' %}"> Sign Up </a></li> {% endcomment %}
+            <li><h5 color="white">Stocks Chat</h5></li>
+            <li style="float:right"><a href="{% url 'login' %}">Login</a></li>
+            <li style="float:right"><a href="{% url 'signUp' %}">Sign Up</a></li>
+        </ul>
+        {% block content %}
+
+        {% endblock %}
+    </center>
+</body>
+</html>
