@@ -6,11 +6,24 @@
         <h4> Welcome, {{user.username}} </h4>
     </div>
 
-    <div class="flexbox-container" style="display:flex;">
+ <div class="flexbox-container" style="display:flex;">
         <div class="chat" style="flex:1;">
             <nav>
                 <ul style="list-style-type:none;">
-                    <h5>{{room}}</h5>
+                    <h5>{{room.name}}</h5>
+                    {% for message in messages %}
+                        <li>
+                            <div class="container">
+                                <p>{{message.text}}</p>
+                                <span class="time-right">11:00</span>
+                            </div>
+                        </li>
+                    {% endfor %}
+                    <form action="{% url 'chat' room.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="text" name="message">
+                        <button class="btn btn-primary" type="submit" name='send'> Send </button>
+                    </form>
                 </ul>
             </nav>
         </div>
