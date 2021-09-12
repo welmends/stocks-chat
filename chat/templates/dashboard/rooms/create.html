@@ -1,0 +1,19 @@
+{% extends 'dashboard/rooms/nav.html' %}
+
+{% block subcontent %}
+
+    <div class="row my-4">
+      <div class="col-md-6 offset-md-3">
+          <div class="border p-3 bg-white">
+              <h2 class="mt-2 text-center">Create chat room</h2>
+              <form method="POST">
+                  {% csrf_token %}
+                  {{ form.as_p }}
+                  <input class="btn btn-success" type="submit" name="button" value="Create">
+                  <input class="btn btn-danger" type="submit" name="button" value="Back">
+              </form>
+          </div>
+      </div>
+  </div>
+
+{% endblock  %}
