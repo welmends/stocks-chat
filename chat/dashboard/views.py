@@ -26,7 +26,7 @@ def createRoomView(request):
         if request.POST.get('button')=='Back':
             return redirect('rooms')
         form = CreateRoomForm(request.POST)
-        if form.is_valid and form.data['name']!='':
+        if form.is_valid() and form.data['name']!='':
             form.save()
             return redirect('rooms')
     context = {'form': form}

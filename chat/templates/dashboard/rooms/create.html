@@ -2,10 +2,12 @@
 
 {% block subcontent %}
 
+        <li><h5 class="li-h5-top"> Create Room </h5></li>
+    </ul>
+
     <div class="row my-4">
       <div class="col-md-6 offset-md-3">
           <div class="border p-3 bg-white">
-              <h2 class="mt-2 text-center">Create chat room</h2>
               <form method="POST">
                   {% csrf_token %}
                   {{ form.as_p }}
