@@ -13,7 +13,9 @@
                         <li>
                             <form action="{% url 'rooms' %}" method="post">
                                 {% csrf_token %}
-                                <button type="submit" name='room_button' value={{room.name}}>{{room.name}}</button>
+                                <div class="container">
+                                    <button class="button-room" type="submit" name='room_button' value={{room.name}}>{{room.name}}</button>
+                                </div>
                             </form>
                         </li>
                     {% endfor %}
