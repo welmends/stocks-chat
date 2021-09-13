@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import login
 from .forms import UserSignUpForm
 
-def signUpView(request):
+def signUp_view(request):
     form = UserSignUpForm()
     if request.method == 'POST':
         form = UserSignUpForm(request.POST)
