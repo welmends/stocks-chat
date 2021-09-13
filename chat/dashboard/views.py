@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from django.db.models.query import QuerySet
 from rest_framework.decorators import api_view
 from .models import Room, Message
 from .forms import CreateRoomForm
@@ -31,14 +32,8 @@ def createRoomView(request):
 
 @login_required
 def chatView(request, room_id=None):
-    messages = Message.objects.filter(room_id=room_id)
-    if request.method == 'POST':
-        room = Room.objects.get(id=room_id)
-        user = User.objects.get(id=request.user.id)
-        message = Message.objects.create(room=room, user=user, text=request.POST['message'])
-        message.save()
     room = Room.objects.filter(id=room_id)[0]
-    context = {'room': room, 'messages': messages}
+    context = {'room': room}
     return render(request, 'dashboard/chat/home.html', context)
 
 @login_required
@@ -62,7 +57,7 @@ def getMessages(request):
             messages = messages[:50]
 
         serializable_messages = []
-        for m in messages.reverse():
+        for m in reversed(messages):
             serializable_messages.append(
                 {
                     'text': m.text,
