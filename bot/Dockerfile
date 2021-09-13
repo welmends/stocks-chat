@@ -9,7 +9,7 @@ RUN pip install requests
 
 WORKDIR /bot
 
-COPY bot/ ./
-COPY config.yml ./
+COPY bot/ /bot
+COPY config.yml /bot
 
 CMD ["python3", "-u", "stock_bot.py"]
