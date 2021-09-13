@@ -45,15 +45,19 @@ def sendMessage(request):
         text = request.POST['message']
         if len(text)==0:
             return JsonResponse({'status': False})
-        room = Room.objects.get(id=request.POST['room_id'])
-        user = User.objects.get(id=request.user.id)
-        message = Message.objects.create(room=room, user=user, text=text)
-        message.save()
-        if '/stock=' in text and text[0]=='/':
+        elif '/stock=' in text and text[0]=='/':
             stock_code = text[text.index('=')+1:]
+            room = Room.objects.get(id=request.POST['room_id'])
             bot = BotClient(room, stock_code)
             bot.start()
-    return JsonResponse({'status': True})
+            return JsonResponse({'status': False})
+        else:
+            room = Room.objects.get(id=request.POST['room_id'])
+            user = User.objects.get(id=request.user.id)
+            message = Message.objects.create(room=room, user=user, text=text)
+            message.save()
+            return JsonResponse({'status': True})
+    return JsonResponse({'status': False})
 
 @login_required
 @api_view(['GET'])
