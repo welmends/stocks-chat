@@ -3,3 +3,4 @@ djangorestframework
 pika
 pyrabbit
 requests
+PyYAML
