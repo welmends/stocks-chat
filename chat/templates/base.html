@@ -2,84 +2,18 @@
 
 <html>
 <head>
-    <style>
-        .ul-top {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #333;
-        }
-
-        .li-top {
-            float: left;
-        }
-
-        .li-a-top {
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-
-        .li-a-top:hover:not(.active) {
-            background-color: #111;
-        }
-
-        .li-h5-top {
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 12px 16px;
-            text-decoration: none;
-        }
-
-        .divider {
-        border-left: 1px solid;
-        }
-        
-        .container {
-            border: 2px solid #dedede;
-            background-color: #f1f1f1;
-            border-radius: 5px;
-            padding: 10px;
-            margin: 10px 0;
-        }
-
-        .darker {
-            border-color: #bbb;
-            background-color: #ccc;
-        }
-
-        .container::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
-
-        /* Style time text */
-        .time-right {
-            float: right;
-            color: #888;
-        }
-
-        /* Style time text */
-        .time-left {
-            float: left;
-            color: #888;
-        }
-    </style>
     <title>Stocks Chat</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
     <center>
-        {% block content %}
-
-        {% endblock %}
+        {% block content %} {% endblock %}
     </center>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </body>
 </html>

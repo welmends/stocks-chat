@@ -2,65 +2,95 @@
 
 {% block subcontent %}
 
-    <div align="left" style="padding: 0% 1%;">
-        <h4> Welcome, {{user.username}} </h4>
+<div class="flexbox-container" style="display:flex;">
+    <div class="chat" style="flex:1; width=90%;">
+        <nav>
+            <ul style="list-style-type:none;">
+                <li> <div id="messages" style="max-height: 500px; overflow-y: scroll;"></div> </li>
+            </ul>
+        </nav>
+        <input class="input-chat" type="text" id="input_message" name="message" onkeypress="checkKey();" placeholder="Type a message">
+        <button class="btn btn-primary" type="submit" name='send' onclick="sendMessage();"> Send </button>
     </div>
+</div>
 
- <div class="flexbox-container" style="display:flex;">
-        <div class="chat" style="flex:1;">
-            <nav>
-                <ul style="list-style-type:none;">
-                    <h5>{{room.name}}</h5>
-                    {% for message in messages %}
-                        <li>
-                            {% if user.id == message.user.id %}
-                                <div class="container">
-                                    <p align="right">{{message.text}}</p>
-                                    <span class="time-right">{{message.user.username}}</span>
-                                    <span class="time-left">{{message.created_at}}</span>
-                                </div>
-                            {% else %}
-                                <div class="container darker">
-                                    <p align="left">{{message.text}}</p>
-                                    <span class="time-left">{{message.user.username}}</span>
-                                    <span class="time-right">{{message.created_at}}</span>
-                                </div>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                    <form action="{% url 'chat' room.id %}" method="post">
-                        {% csrf_token %}
-                        <input type="text" name="message">
-                        <button class="btn btn-primary" type="submit" name='send'> Send </button>
-                    </form>
-                </ul>
-            </nav>
-        </div>
-    </div>
+{% load js %}
 
-{% comment %}     
-    <div class="container">
-    <img src="/w3images/bandmember.jpg" alt="Avatar">
-    <p>Hello. How are you today?</p>
-    <span class="time-right">11:00</span>
-    </div>
+<script>
+window.onload = function() {
+  getMessages();
+};
 
-    <div class="container darker">
-    <img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right">
-    <p>Hey! I'm fine. Thanks for asking!</p>
-    <span class="time-left">11:01</span>
-    </div>
+setInterval( getMessages, 1000 );
 
-    <div class="container">
-    <img src="/w3images/bandmember.jpg" alt="Avatar">
-    <p>Sweet! So, what do you wanna do today?</p>
-    <span class="time-right">11:02</span>
-    </div>
+function checkKey() {
+    let key = window.event.keyCode;
+    if (key===13) { // Enter
+        sendMessage();
+    }
+}
 
-    <div class="container darker">
-    <img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right">
-    <p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
-    <span class="time-left">11:05</span>
-    </div> {% endcomment %}
+function sendMessage() {
+    $.ajax({
+        type: 'POST',
+        url: '{% url 'send_message' %}',
+        data: {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            room_id: "{{room.id|js}}",
+            message: document.querySelector('#input_message').value
+        },
+        success: function (data) {
+            document.querySelector('#input_message').value = "";
+            getMessages();
+        }
+    });
+}
+
+function getMessages() {
+    var user_id = "{{user.id|js}}";
+    $.ajax({
+        type: 'GET',
+        url: '{% url 'get_messages' %}',
+        data: {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            room_id: "{{room.id|js}}",
+        },
+        success: function (data) {
+            if (data.messages.length > 0) {
+                var messages_formatted = "";
+                for (var i=0; i<data.messages.length; i++) {
+                    if (user_id == data.messages[i].user_id){
+                        messages_formatted += (
+                            `
+                            <div class="container">
+                                <p align="right">${data.messages[i].text}</p>
+                                <span class="time-right">${data.messages[i].user_name}</span>
+                                <span class="time-left">${data.messages[i].datetime}</span>
+                            </div>
+                            `
+                        );
+                    }else{
+                        messages_formatted += (
+                            `
+                            <div class="container darker">
+                                <p align="left">${data.messages[i].text}</p>
+                                <span class="time-left">${data.messages[i].user_name}</span>
+                                <span class="time-right">${data.messages[i].datetime}</span>
+                            </div>
+                            `
+                        );
+                    }
+                }
+                var scroll = (document.querySelector('#messages').innerHTML != messages_formatted)
+                document.querySelector('#messages').innerHTML = messages_formatted
+                if (scroll) {
+                    let messages_div = document.getElementById("messages");
+                    messages_div.scrollTop = messages_div.scrollHeight;
+                }
+            }
+    }
+    });
+}
+</script>
 
 {% endblock  %}

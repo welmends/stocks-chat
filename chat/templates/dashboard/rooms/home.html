@@ -2,15 +2,10 @@
 
 {% block subcontent %}
 
-    <div align="left" style="padding: 0% 1%;">
-        <h4> Welcome, {{user.username}} </h4>
-    </div>
-
     <div class="flexbox-container" style="display:flex;">
         <div class="sidebar" style="flex:1;">
             <nav>
                 <ul style="list-style-type:none;">
-                    <h5>Rooms</h5>
                     {% for room in rooms %}
                         <li>
                             <form action="{% url 'rooms' %}" method="post">
