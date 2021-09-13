@@ -1,6 +1,23 @@
 version: "3.2"
 
 services:
+  chat:
+    build:
+      context: ./
+      dockerfile: ./chat/Dockerfile
+    container_name: chat
+    restart: on-failure
+    ports:
+      - 8000:8000
+    depends_on:
+      - rabbitmq
+      - bot
+    links: 
+      - rabbitmq
+      - bot
+    networks:
+      - rabbitmq
+
   bot:
     build:
       context: ./
@@ -17,6 +34,7 @@ services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: rabbitmq
+    restart: on-failure
     ports:
       - 5672:5672
       - 15672:15672

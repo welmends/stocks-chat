@@ -1,5 +1,5 @@
+import yaml, pika
 from threading import Thread
-import pika
 from django.contrib.auth.models import User
 from .models import Room, Message
 
@@ -12,7 +12,19 @@ class BotClient(Thread):
         self.queue = room.name
         self.room_id = room.id
         self.stock_code = stock_code
+        conf_host = self.read_config_file()
+        if conf_host!='':
+            self.host = conf_host
 
+    def read_config_file(self):
+        try:
+            with open("/chat/config.yml", 'r') as stream:
+                yamlData = yaml.safe_load(stream)
+                host = yamlData["rabbitmq-host"]
+                return host
+        except:
+            return ''
+        
     def callback(self, ch, method, properties, body):
         room = Room.objects.get(id=self.room_id)
         user = User.objects.get(username='bot')
