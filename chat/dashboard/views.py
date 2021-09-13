@@ -4,9 +4,11 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.db.models.query import QuerySet
 from rest_framework.decorators import api_view
+from asgiref.sync import sync_to_async
 from .models import Room, Message
 from .forms import CreateRoomForm
 from .serializers import MessageSerializer
+from .bot_client import BotClient
 
 @login_required
 def dashboardView(request):
@@ -40,10 +42,15 @@ def chatView(request, room_id=None):
 @api_view(['POST'])
 def sendMessage(request):
     if request.method == 'POST':
+        text = request.POST['message']
         room = Room.objects.get(id=request.POST['room_id'])
         user = User.objects.get(id=request.user.id)
-        message = Message.objects.create(room=room, user=user, text=request.POST['message'])
+        message = Message.objects.create(room=room, user=user, text=text)
         message.save()
+        if '/stock=' in text and text[0]=='/':
+            stock_code = text[text.index('=')+1:]
+            bot = BotClient(room, stock_code)
+            bot.start()
     return JsonResponse({'status': True})
 
 @login_required
@@ -70,3 +77,8 @@ def getMessages(request):
             )
         return JsonResponse({'messages': MessageSerializer(serializable_messages, many=True).data})
     return JsonResponse({'messages': None})
+
+# @sync_to_async
+# @login_required
+# @api_view(['POST'])
+# def bot_client(request):
