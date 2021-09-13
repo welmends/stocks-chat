@@ -11,16 +11,21 @@ from .serializers import MessageSerializer
 from .bot_client import BotClient
 
 @login_required
-def dashboardView(request):
+def dashboard_view(request):
     if request.method == 'POST':
-        room = Room.objects.filter(name=request.POST.get('room_button'))[0]
-        context = {'room': room, 'messages': []}
-        return redirect('chat/{}'.format(room.id))
+        rooms = Room.objects.filter(name=request.POST.get('room_button'))
+        if len(rooms)>0:
+            room = rooms[0]
+            context = {'room': room, 'messages': []}
+            return redirect('chat/{}'.format(room.id))
+        else:
+            context = {'rooms': rooms}
+            return render(request, 'dashboard/rooms/home.html', context)
     context = {'rooms': Room.objects.all()}
     return render(request, 'dashboard/rooms/home.html', context)
 
 @login_required
-def createRoomView(request):
+def create_room_view(request):
     form = CreateRoomForm()
     if request.method == 'POST':
         if request.POST.get('button')=='Back':
@@ -33,14 +38,14 @@ def createRoomView(request):
     return render(request, 'dashboard/rooms/create.html', context)
 
 @login_required
-def chatView(request, room_id=None):
+def chat_view(request, room_id=None):
     room = Room.objects.filter(id=room_id)[0]
     context = {'room': room}
     return render(request, 'dashboard/chat/home.html', context)
 
 @login_required
 @api_view(['POST'])
-def sendMessage(request):
+def send_message(request):
     if request.method == 'POST':
         text = request.POST['message']
         if len(text)==0:
@@ -61,7 +66,7 @@ def sendMessage(request):
 
 @login_required
 @api_view(['GET'])
-def getMessages(request):
+def get_messages(request):
     if request.method == 'GET':
         messages = Message.objects.filter(room_id=request.GET['room_id']).order_by('-created_at')
         if len(messages)==0:
