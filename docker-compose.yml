@@ -1,0 +1,28 @@
+version: "3.2"
+
+services:
+  bot:
+    build:
+      context: ./
+      dockerfile: ./bot/Dockerfile
+    container_name: bot
+    restart: on-failure
+    depends_on:
+      - rabbitmq
+    links: 
+      - rabbitmq
+    networks:
+      - rabbitmq
+      
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - rabbitmq
+
+networks:
+  rabbitmq:
+    driver: bridge
