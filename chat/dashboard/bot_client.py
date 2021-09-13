@@ -27,7 +27,7 @@ class BotClient(Thread):
         
     def callback(self, ch, method, properties, body):
         room = Room.objects.get(id=self.room_id)
-        user = User.objects.get(username='bot')
+        user = User.objects.get(username='stocks-bot')
         message = Message.objects.create(room=room, user=user, text=body.decode())
         message.save()
         

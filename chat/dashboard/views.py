@@ -75,10 +75,5 @@ def getMessages(request):
                     'datetime': m.created_at.strftime("%B %d, %Y %H:%M:%S"),
                 }
             )
-        return JsonResponse({'messages': MessageSerializer(serializable_messages, many=True).data})
+        return JsonResponse({'bot_id': User.objects.get(username='stocks-bot').id, 'messages': MessageSerializer(serializable_messages, many=True).data})
     return JsonResponse({'messages': None})
-
-# @sync_to_async
-# @login_required
-# @api_view(['POST'])
-# def bot_client(request):

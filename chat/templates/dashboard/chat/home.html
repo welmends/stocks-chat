@@ -48,6 +48,7 @@ function sendMessage() {
 
 function getMessages() {
     var user_id = "{{user.id|js}}";
+    var user_id = "{{user.id|js}}";
     $.ajax({
         type: 'GET',
         url: '{% url 'get_messages' %}',
@@ -69,7 +70,32 @@ function getMessages() {
                             </div>
                             `
                         );
-                    }else{
+                    }
+                    else if (data.bot_id == data.messages[i].user_id){
+                        if (data.messages[i].text.includes('$')){
+                            messages_formatted += (
+                                `
+                                <div class="container stockbot">
+                                    <p align="left">${data.messages[i].text}</p>
+                                    <span class="time-left">${data.messages[i].user_name}</span>
+                                    <span class="time-right">${data.messages[i].datetime}</span>
+                                </div>
+                                `
+                            );
+                        }
+                        else{
+                            messages_formatted += (
+                                `
+                                <div class="container stockbot-fail">
+                                    <p align="left">${data.messages[i].text}</p>
+                                    <span class="time-left">${data.messages[i].user_name}</span>
+                                    <span class="time-right">${data.messages[i].datetime}</span>
+                                </div>
+                                `
+                            );
+                        }
+                    }
+                    else{
                         messages_formatted += (
                             `
                             <div class="container darker">
