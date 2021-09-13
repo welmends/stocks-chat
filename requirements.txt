@@ -4,3 +4,4 @@ PyYAML
 pika
 pyrabbit
 requests
+pytest
