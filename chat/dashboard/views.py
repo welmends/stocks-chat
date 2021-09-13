@@ -43,6 +43,8 @@ def chatView(request, room_id=None):
 def sendMessage(request):
     if request.method == 'POST':
         text = request.POST['message']
+        if len(text)==0:
+            return JsonResponse({'status': False})
         room = Room.objects.get(id=request.POST['room_id'])
         user = User.objects.get(id=request.user.id)
         message = Message.objects.create(room=room, user=user, text=text)
