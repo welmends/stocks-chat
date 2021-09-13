@@ -11,7 +11,7 @@ def insert_default_users(apps, schema_editor):
             user = User.objects.create(username='admin', password=make_password('admin'), is_superuser=True)
             user.save()
         with transaction.atomic():
-            user = User.objects.create(username='bot', password=make_password('bot'))
+            user = User.objects.create(username='stocks-bot', password=make_password('bot-passwd'))
             user.save()
         with transaction.atomic():
             user = User.objects.create(username='user', password=make_password('123'))

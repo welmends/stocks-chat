@@ -31,18 +31,37 @@
     text-decoration: none;
 }
 
-/* chat list */
+/* room and chat list */
 .container {
-    border: 2px solid #dedede;
+    border: 2px solid #bbb;
     background-color: #f1f1f1;
     border-radius: 5px;
     padding: 5px;
     margin: 5px 0;
 }
 
+/* room list */
+.button-room {
+    width:100%;
+    display:block;
+    border: 0px solid #bbb;
+    background-color: #f1f1f1;
+}
+
+/* chat list */
 .darker {
     border-color: #bbb;
     background-color: #ccc;
+}
+
+.stockbot {
+    border-color: #bbb;
+    background-color: #99CC99;
+}
+
+.stockbot-fail {
+    border-color: #bbb;
+    background-color: #e2acac;
 }
 
 .container::after {

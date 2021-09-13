@@ -43,6 +43,8 @@ def chatView(request, room_id=None):
 def sendMessage(request):
     if request.method == 'POST':
         text = request.POST['message']
+        if len(text)==0:
+            return JsonResponse({'status': False})
         room = Room.objects.get(id=request.POST['room_id'])
         user = User.objects.get(id=request.user.id)
         message = Message.objects.create(room=room, user=user, text=text)
@@ -75,10 +77,5 @@ def getMessages(request):
                     'datetime': m.created_at.strftime("%B %d, %Y %H:%M:%S"),
                 }
             )
-        return JsonResponse({'messages': MessageSerializer(serializable_messages, many=True).data})
+        return JsonResponse({'bot_id': User.objects.get(username='stocks-bot').id, 'messages': MessageSerializer(serializable_messages, many=True).data})
     return JsonResponse({'messages': None})
-
-# @sync_to_async
-# @login_required
-# @api_view(['POST'])
-# def bot_client(request):
