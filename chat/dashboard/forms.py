@@ -16,4 +16,8 @@ class CreateRoomForm(ModelForm):
         name = self.cleaned_data.get('name')
         if any(sc in name for sc in special_characters):
             raise forms.ValidationError('Room name must not contains special characters: {}'.format(special_characters))
+        
+        rooms = Room.objects.filter(name=name)
+        if len(rooms):
+            raise forms.ValidationError('A room with that name already exists.')
         return name
