@@ -31,9 +31,9 @@ class DashboardTests(TestCase):
 
     def test_dashboard_view_with_POST(self):
         room = Room()
-        room.name = '<room_name>'
+        room.name = 'room_name'
         room.save()
 
-        response = self.client.post(reverse('rooms'), {'room_button': '<room_name>'})
+        response = self.client.post(reverse('rooms'), {'room_button': 'room_name'})
 
         self.assertEquals(response.status_code, 302)
