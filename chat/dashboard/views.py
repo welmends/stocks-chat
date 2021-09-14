@@ -50,12 +50,19 @@ def send_message(request):
         text = request.POST['message']
         if len(text)==0:
             return JsonResponse({'status': False})
-        elif '/stock=' in text and text[0]=='/':
+        elif text[0]=='/' and '/stock=' in text:
             stock_code = text[text.index('=')+1:]
             room = Room.objects.get(id=request.POST['room_id'])
             bot = BotClient(room, stock_code)
             bot.start()
-            return JsonResponse({'status': False})
+            return JsonResponse({'status': True})
+        elif text[0]=='/' and '=' in text:
+            wrong_cmd = text[1:text.index('=')]
+            room = Room.objects.get(id=request.POST['room_id'])
+            user = User.objects.get(username='stocks-bot')
+            message = Message.objects.create(room=room, user=user, text='There is no such command "{}"'.format(wrong_cmd))
+            message.save()
+            return JsonResponse({'status': True})
         else:
             room = Room.objects.get(id=request.POST['room_id'])
             user = User.objects.get(id=request.user.id)
