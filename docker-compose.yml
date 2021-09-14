@@ -25,7 +25,8 @@ services:
     container_name: bot
     restart: on-failure
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
     links: 
       - rabbitmq
     networks:
@@ -40,6 +41,11 @@ services:
       - 15672:15672
     networks:
       - rabbitmq
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "5672"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
 networks:
   rabbitmq:
