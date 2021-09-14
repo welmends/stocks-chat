@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -10,7 +11,7 @@ from .forms import CreateRoomForm
 from .serializers import MessageSerializer
 from .bot_client import BotClient
 
-@login_required
+@login_required(login_url=settings.LOGIN_URL)
 def dashboard_view(request):
     if request.method == 'POST':
         rooms = Room.objects.filter(name=request.POST.get('room_button'))
@@ -24,7 +25,7 @@ def dashboard_view(request):
     context = {'rooms': Room.objects.all()}
     return render(request, 'dashboard/rooms/home.html', context)
 
-@login_required
+@login_required(login_url=settings.LOGIN_URL)
 def create_room_view(request):
     form = CreateRoomForm()
     if request.method == 'POST':
@@ -37,11 +38,13 @@ def create_room_view(request):
     context = {'form': form}
     return render(request, 'dashboard/rooms/create.html', context)
 
-@login_required
+@login_required(login_url=settings.LOGIN_URL)
 def chat_view(request, room_id=None):
-    room = Room.objects.filter(id=room_id)[0]
-    context = {'room': room}
-    return render(request, 'dashboard/chat/home.html', context)
+    rooms = Room.objects.filter(id=room_id)
+    if len(rooms)>0:
+        context = {'room': rooms[0]}
+        return render(request, 'dashboard/chat/home.html', context)
+    return redirect('rooms')
 
 @login_required
 @api_view(['POST'])
