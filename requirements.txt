@@ -1,7 +1,0 @@
-Django
-djangorestframework
-PyYAML
-pika
-pyrabbit
-requests
-pytest

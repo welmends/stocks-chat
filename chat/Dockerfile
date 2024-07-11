@@ -1,16 +1,13 @@
-FROM python:3.8-slim
+FROM python:3.10-slim
 
 LABEL maintainer="Wellington Mendes - wellmend0@gmail.com"
-
-RUN pip install Django
-RUN pip install djangorestframework
-RUN pip install PyYAML
-RUN pip install pika
 
 WORKDIR /chat
 
 COPY chat/ /chat
 COPY config.yml /chat
+
+RUN pip install -r /chat/requirements.txt -y
 
 RUN rm -rf /chat/db.sqlite3
 RUN python3 manage.py migrate
