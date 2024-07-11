@@ -7,7 +7,7 @@ WORKDIR /chat
 COPY chat/ /chat
 COPY config.yml /chat
 
-RUN pip install -r /chat/requirements.txt -y
+RUN pip install -r /chat/requirements.txt
 
 RUN rm -rf /chat/db.sqlite3
 RUN python3 manage.py migrate

@@ -7,6 +7,6 @@ WORKDIR /bot
 COPY bot/ /bot
 COPY config.yml /bot
 
-RUN pip install -r /bot/requirements.txt -y
+RUN pip install -r /bot/requirements.txt
 
 CMD ["python3", "-u", "stock_bot.py"]
