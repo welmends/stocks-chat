@@ -1,11 +1,13 @@
 from django.contrib.auth.models import User
-from .models import Message
 from rest_framework import serializers
 
+from .models import Message
+
+
 class MessageSerializer(serializers.Serializer):
-    text      = serializers.CharField()
+    text = serializers.CharField()
     user_name = serializers.CharField()
-    user_id   = serializers.IntegerField()
+    user_id = serializers.IntegerField()
     room_name = serializers.CharField()
-    room_id   = serializers.IntegerField()
-    datetime  = serializers.CharField()
+    room_id = serializers.IntegerField()
+    datetime = serializers.CharField()

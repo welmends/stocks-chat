@@ -1,32 +1,39 @@
+import time
 from threading import Thread
+
+import yaml
 from pyrabbit.api import Client
+
 from consumer import Consumer
-import time, yaml
+
 
 class StockBot:
-    def __init__(self, host='localhost', port='15672', user='guest', passwd='guest'):
+    def __init__(self, host="localhost", port="15672", user="guest", passwd="guest"):
         self.host = host
-        self.cli = Client('{}:{}'.format(host, port), user, passwd)
+        self.cli = Client("{}:{}".format(host, port), user, passwd)
         self.queues = []
         self.consumers = []
 
     def query_queues(self):
-        return [q['name'] for q in self.cli.get_queues()]
+        return [q["name"] for q in self.cli.get_queues()]
 
     def start_working(self):
-        while(True):
+        while True:
             queues = self.query_queues()
-            up = [q for q in list(set(queues) - set(self.queues)) if q[0]!='_']
-            threads = [Thread(target=Consumer(q, host=self.host).start_consuming) for q in up]
+            up = [q for q in list(set(queues) - set(self.queues)) if q[0] != "_"]
+            threads = [
+                Thread(target=Consumer(q, host=self.host).start_consuming) for q in up
+            ]
             [t.start() for t in threads]
             self.consumers += threads
             self.queues += up
             print(self.queues)
             time.sleep(5)
 
+
 def read_config_file():
     try:
-        with open("config.yml", 'r') as stream:
+        with open("config.yml", "r") as stream:
             yamlData = yaml.safe_load(stream)
             host = yamlData["rabbitmq-host"]
             port = yamlData["rabbitmq-port"]
@@ -36,7 +43,8 @@ def read_config_file():
     except:
         pass
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     configs = read_config_file()
     if configs is None:
         stock_bot = StockBot()

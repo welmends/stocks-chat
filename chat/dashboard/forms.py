@@ -1,23 +1,29 @@
 from django import forms
 from django.forms import ModelForm
+
 from .models import Room
+
 
 class CreateRoomForm(ModelForm):
     class Meta:
         model = Room
-        fields = ('name',)
+        fields = ("name",)
 
     def __init__(self, *args, **kwargs):
         super(CreateRoomForm, self).__init__(*args, **kwargs)
-        self.fields['name'].required = False
+        self.fields["name"].required = False
 
     def clean_name(self):
-        special_characters = '!@#$%^&*()-+?=,_<>/'
-        name = self.cleaned_data.get('name')
+        special_characters = "!@#$%^&*()-+?=,_<>/"
+        name = self.cleaned_data.get("name")
         if any(sc in name for sc in special_characters):
-            raise forms.ValidationError('Room name must not contains special characters: {}'.format(special_characters))
-        
+            raise forms.ValidationError(
+                "Room name must not contains special characters: {}".format(
+                    special_characters
+                )
+            )
+
         rooms = Room.objects.filter(name=name)
         if len(rooms):
-            raise forms.ValidationError('A room with that name already exists.')
+            raise forms.ValidationError("A room with that name already exists.")
         return name
