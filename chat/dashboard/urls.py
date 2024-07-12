@@ -3,7 +3,7 @@ from django.urls import path
 from .views.chat_view import ChatView
 from .views.create_room_view import CreateRoomView
 from .views.dashboard_view import DashboardView
-from .views.message_views import get_messages, send_message
+from .views.message_view import get_messages, send_message
 
 urlpatterns = [
     path("rooms", DashboardView.as_view(), name="rooms"),
