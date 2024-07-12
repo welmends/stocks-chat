@@ -2,7 +2,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 from django.views.generic.base import RedirectView
 
-from . import views
+from .views import SignUpView
 
 urlpatterns = [
     path(
@@ -10,7 +10,7 @@ urlpatterns = [
         RedirectView.as_view(url="registration/login", permanent=False),
         name="index",
     ),
-    path("registration/signUp", views.signUp_view, name="signUp"),
+    path("registration/signUp", SignUpView.as_view(), name="signUp"),
     path(
         "registration/login",
         LoginView.as_view(redirect_authenticated_user=True),
