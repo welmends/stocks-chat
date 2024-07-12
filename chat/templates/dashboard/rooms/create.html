@@ -1,21 +1,28 @@
-{% extends 'dashboard/rooms/nav.html' %}
+{% extends 'dashboard/rooms/nav.html' %} {% block subcontent %}
+<ul>
+  <li><h5 class="li-h5-top">Create Room</h5></li>
+</ul>
 
-{% block subcontent %}
-
-        <li><h5 class="li-h5-top"> Create Room </h5></li>
-    </ul>
-
-    <div class="row my-4">
-      <div class="col-md-6 offset-md-3">
-          <div class="border p-3 bg-white">
-              <form method="POST">
-                  {% csrf_token %}
-                  {{ form.as_p }}
-                  <input class="btn btn-success" type="submit" name="button" value="Create">
-                  <input class="btn btn-danger" type="submit" name="button" value="Back">
-              </form>
-          </div>
-      </div>
+<div class="row my-4">
+  <div class="col-md-6 offset-md-3">
+    <div class="border p-3 bg-white">
+      <form method="POST">
+        {% csrf_token %} {{ form.as_p }}
+        <input
+          class="btn btn-success"
+          type="submit"
+          name="button"
+          value="Create"
+        />
+        <input
+          class="btn btn-danger"
+          type="submit"
+          name="button"
+          value="Back"
+        />
+      </form>
+    </div>
   </div>
+</div>
 
-{% endblock  %}
+{% endblock %}
