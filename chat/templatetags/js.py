@@ -1,8 +1,10 @@
-from django.utils.safestring import mark_safe
-from django.template import Library
 import json
 
+from django.template import Library
+from django.utils.safestring import mark_safe
+
 register = Library()
+
 
 @register.filter(is_safe=True)
 def js(obj):
