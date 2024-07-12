@@ -1,17 +1,14 @@
-{% extends 'registration/nav.html' %}
+{% extends 'registration/nav.html' %} {% block subcontent %}
 
-{% block subcontent %}
-
-    <div class="row my-4">
-        <div class="col-md-6 offset-md-3">
-            <div class="border p-3 bg-white">
-                <form method="POST">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <input class="btn btn-success" type="submit" value="Login">
-                </form>
-            </div>
-        </div>
+<div class="row my-4">
+  <div class="col-md-6 offset-md-3">
+    <div class="border p-3 bg-white">
+      <form method="POST">
+        {% csrf_token %} {{ form.as_p }}
+        <input class="btn btn-success" type="submit" value="Login" />
+      </form>
     </div>
+  </div>
+</div>
 
 {% endblock %}

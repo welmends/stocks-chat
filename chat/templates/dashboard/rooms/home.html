@@ -1,27 +1,33 @@
-{% extends 'dashboard/rooms/nav.html' %}
+{% extends 'dashboard/rooms/nav.html' %} {% block subcontent %}
 
-{% block subcontent %}
+<ul>
+  <li><h5 class="li-h5-top">Rooms List</h5></li>
+</ul>
 
-        <li><h5 class="li-h5-top"> Rooms List </h5></li>
-    </ul>
-    
-    <div class="flexbox-container" style="display:flex;">
-        <div class="sidebar" style="flex:1;">
-            <nav>
-                <ul style="list-style-type:none;">
-                    {% for room in rooms %}
-                        <li>
-                            <form action="{% url 'rooms' %}" method="post">
-                                {% csrf_token %}
-                                <div class="container">
-                                    <button class="button-room" type="submit" name='room_button' value={{room.name}}>{{room.name}}</button>
-                                </div>
-                            </form>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </nav>
-        </div>
-    </div>
+<div class="flexbox-container" style="display: flex">
+  <div class="sidebar" style="flex: 1">
+    <nav>
+      <ul style="list-style-type: none">
+        {% for room in rooms %}
+        <li>
+          <form action="{% url 'rooms' %}" method="post">
+            {% csrf_token %}
+            <div class="container">
+              <button
+                class="button-room"
+                type="submit"
+                name="room_button"
+                value="{{room.name}}"
+              >
+                {{room.name}}
+              </button>
+            </div>
+          </form>
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+</div>
 
-{% endblock  %}
+{% endblock %}
