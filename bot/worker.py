@@ -21,5 +21,5 @@ class Worker:
                 "price": stock[1][stock[0].index("Close")],
             }
             return True if response["price"] != "N/D" else False, response
-        except:
+        except Exception:
             return False, {"code": code, "price": "N/D"}

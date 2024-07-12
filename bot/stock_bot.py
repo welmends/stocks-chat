@@ -39,7 +39,7 @@ def read_config_file():
             user = yamlData["rabbitmq-user"]
             passwd = yamlData["rabbitmq-pass"]
             return host, port, user, passwd
-    except:
+    except Exception:
         pass
 
 
