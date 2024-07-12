@@ -1,59 +1,11 @@
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
-from django.views import View
 from rest_framework.decorators import api_view
 
 from .bot_client import BotClient
-from .forms import CreateRoomForm
 from .models import Message, Room
 from .serializers import MessageSerializer
-
-
-@login_required(login_url=settings.LOGIN_URL)
-class DashboardView(View):
-    def get(self, request):
-        context = {"rooms": Room.objects.all()}
-        return render(request, "dashboard/rooms/home.html", context)
-
-    def post(self, request):
-        rooms = Room.objects.filter(name=request.POST.get("room_button"))
-        if len(rooms) > 0:
-            room = rooms[0]
-            return redirect("chat/{}".format(room.id))
-        else:
-            context = {"rooms": rooms}
-            return render(request, "dashboard/rooms/home.html", context)
-
-
-@login_required(login_url=settings.LOGIN_URL)
-class CreateRoomView(View):
-    def get(self, request):
-        form = CreateRoomForm()
-        context = {"form": form}
-        return render(request, "dashboard/rooms/create.html", context)
-
-    def post(self, request):
-        form = CreateRoomForm(request.POST)
-        if request.POST.get("button") == "Back":
-            return redirect("rooms")
-        if form.is_valid() and form.data["name"] != "":
-            form.save()
-            return redirect("rooms")
-        context = {"form": form}
-        return render(request, "dashboard/rooms/create.html", context)
-
-
-@login_required(login_url=settings.LOGIN_URL)
-class ChatView(View):
-    def get(self, request, room_id=None):
-        rooms = Room.objects.filter(id=room_id)
-        if len(rooms) > 0:
-            context = {"room": rooms[0]}
-            return render(request, "dashboard/chat/home.html", context)
-        return redirect("rooms")
 
 
 @login_required
