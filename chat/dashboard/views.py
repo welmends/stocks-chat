@@ -57,13 +57,13 @@ def send_message(request):
         if len(text) == 0:
             return JsonResponse({"status": False})
         elif text[0] == "/" and "/stock=" in text:
-            stock_code = text[text.index("=") + 1 :]
+            stock_code = text[text.index("=") + 1 :]  # noqa
             room = Room.objects.get(id=request.POST["room_id"])
             bot = BotClient(room, stock_code)
             bot.start()
             return JsonResponse({"status": True})
         elif text[0] == "/" and "=" in text:
-            wrong_cmd = text[1 : text.index("=")]
+            wrong_cmd = text[1 : text.index("=")]  # noqa
             room = Room.objects.get(id=request.POST["room_id"])
             user = User.objects.get(username="stocks-bot")
             message = Message.objects.create(
