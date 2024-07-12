@@ -1,12 +1,13 @@
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+from django.utils.decorators import method_decorator
 from django.views import View
 
 from ..models import Room
 
 
-@login_required(login_url=settings.LOGIN_URL)
+@method_decorator(login_required(login_url=settings.LOGIN_URL), name="dispatch")
 class DashboardView(View):
     def get(self, request):
         context = {"rooms": Room.objects.all()}
