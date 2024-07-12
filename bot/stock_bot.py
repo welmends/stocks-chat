@@ -2,9 +2,8 @@ import time
 from threading import Thread
 
 import yaml
-from pyrabbit.api import Client
-
 from consumer import Consumer
+from pyrabbit.api import Client
 
 
 class StockBot:

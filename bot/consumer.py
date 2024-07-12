@@ -1,5 +1,4 @@
 import pika
-
 from worker import Worker
 
 

@@ -1,8 +1,7 @@
+from dashboard.models import Message, Room
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.test import TestCase
-
-from dashboard.models import Message, Room
 
 
 class RegistrationTests(TestCase):

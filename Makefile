@@ -15,3 +15,6 @@ dev:
 	pip install -r requirements.txt
 	pre-commit clean
 	pre-commit install
+
+pre-commit:
+	pre-commit run --all-files

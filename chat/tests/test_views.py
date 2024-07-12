@@ -1,7 +1,6 @@
+from dashboard.models import Room
 from django.test import Client, TestCase
 from django.urls import reverse
-
-from dashboard.models import Room
 
 
 class RegistrationTests(TestCase):

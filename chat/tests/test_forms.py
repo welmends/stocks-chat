@@ -1,6 +1,5 @@
-from django.test import SimpleTestCase, TestCase
-
 from dashboard.forms import CreateRoomForm
+from django.test import SimpleTestCase, TestCase
 from registration.forms import UserSignUpForm
 
 
