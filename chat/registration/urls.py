@@ -2,7 +2,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 from django.views.generic.base import RedirectView
 
-from chat.registration.views import SignUpView
+from .views import SignUpView
 
 urlpatterns = [
     path(

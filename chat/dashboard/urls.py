@@ -1,9 +1,9 @@
 from django.urls import path
 
-from chat.dashboard.views import get_messages, send_message
-from chat.dashboard.views.chat_view import ChatView
-from chat.dashboard.views.create_room_view import CreateRoomView
-from chat.dashboard.views.dashboard_view import DashboardView
+from .views.chat_view import ChatView
+from .views.create_room_view import CreateRoomView
+from .views.dashboard_view import DashboardView
+from .views.views import get_messages, send_message
 
 urlpatterns = [
     path("rooms", DashboardView.as_view(), name="rooms"),
