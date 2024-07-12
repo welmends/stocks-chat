@@ -1,8 +1,6 @@
-from asgiref.sync import sync_to_async
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models.query import QuerySet
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from rest_framework.decorators import api_view

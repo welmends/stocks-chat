@@ -21,7 +21,7 @@ def insert_default_users(apps, schema_editor):
         with transaction.atomic():
             user = User.objects.create(username="user", password=make_password("123"))
             user.save()
-    except:
+    except Exception:
         pass
 
 

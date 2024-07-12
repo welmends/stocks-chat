@@ -26,7 +26,7 @@ class BotClient(Thread):
                 yamlData = yaml.safe_load(stream)
                 host = yamlData["rabbitmq-host"]
                 return host
-        except:
+        except Exception:
             return ""
 
     def callback(self, ch, method, properties, body):
